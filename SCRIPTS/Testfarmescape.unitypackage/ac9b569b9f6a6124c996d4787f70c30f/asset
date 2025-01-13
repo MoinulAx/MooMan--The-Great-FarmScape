@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+
+    public class Timer : MonoBehaviour
+    {
+
+        public float timerValue;
+        public bool canRun = false;
+        public TextMeshProUGUI Timertext;
+
+        //Add to the timer as the game is running
+        private void Update()
+        {
+
+            if (canRun)
+            {
+                timerValue += Time.deltaTime;
+
+                float minutes = Mathf.FloorToInt(timerValue / 60f);
+                float seconds = Mathf.FloorToInt(timerValue % 60f);
+
+                Timertext.text = minutes.ToString("00") + ":" + seconds.ToString("00");
+            }
+
+            // Testing only, remove before building
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                canRun = !canRun;
+            }
+
+            //
+        }
+
+        // Timer start counting up when the game starts
+        public void StartTimer()
+        {
+            canRun = true;
+        }
+
+        // Timer ends when the game ends
+        public void EndTimer()
+        {
+            canRun = false;
+        }
+    }
+
+

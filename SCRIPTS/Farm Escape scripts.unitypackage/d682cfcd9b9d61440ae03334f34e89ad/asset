@@ -1,0 +1,43 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class PlayerHealth : MonoBehaviour
+{
+    public TextMeshProUGUI healthtext;
+    public int healthCount;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Bird")
+        {
+            if (other.gameObject.tag == "Damage")
+            {
+                healthCount--;
+                healthtext.text = "Health" + healthCount;
+                Destroy(other.gameObject);
+            }
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Health")
+        {
+            healthCount++;
+            healthtext.text = "Health" + healthCount;
+            Destroy(other.gameObject);
+        }
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

@@ -1,0 +1,71 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovementTest : MonoBehaviour
+{
+    public float maxJumpTime = 3;
+
+    Rigidbody2D rb2d;
+
+    public float intialJumpSpeed;
+    public float jumpspeed;
+    public bool jumpIsPressed;
+    public bool jumpIsReleased;
+
+    public float jumpTimer;
+    public float downForce;
+
+    public bool isGrounded;
+
+    void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+
+    void Update()
+    {
+        jumpIsPressed = Input.GetKey(KeyCode.UpArrow);
+
+        if (Input.GetKeyUp(KeyCode.UpArrow))
+        {
+            jumpIsReleased = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded == true)
+        {
+            jumpIsReleased = false;
+
+            isGrounded = false;
+            rb2d.AddForce(transform.up * intialJumpSpeed);
+        }
+
+        if (jumpIsPressed && isGrounded == false)
+        {
+            jumpTimer += Time.deltaTime;
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (isGrounded == false)
+        {
+            if (jumpIsPressed && jumpTimer < maxJumpTime && jumpIsReleased == false)
+            {
+                rb2d.AddForce(transform.up * jumpspeed);
+            }
+
+            if (!jumpIsPressed || jumpTimer >= maxJumpTime)
+            {
+                rb2d.AddForce(-transform.up * downForce);
+            }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        isGrounded = true;
+        jumpTimer = 0;
+    }
+}

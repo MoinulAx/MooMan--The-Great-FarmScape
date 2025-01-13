@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float maxVel = 10f;
+    Rigidbody2D rb2d;
+    public float jumpspeed;
+    public float crouchspeed;
+    public float runspeed;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+       /*  if (other.gameObject.tag == "Obsticle")
+        {
+            runspeed /= 2f;
+            runspeed++;
+        }*/
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            rb2d.AddForce(transform.up * jumpspeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            rb2d.AddForce(-transform.up * jumpspeed);
+        }
+       
+    }
+
+    private void FixedUpdate()
+    {
+        if (rb2d.velocity.sqrMagnitude < maxVel)
+            rb2d.AddForce(transform.right * runspeed);
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(10, 10, 100, 20), "Speed: " + rb2d.velocity.magnitude);
+    }
+}

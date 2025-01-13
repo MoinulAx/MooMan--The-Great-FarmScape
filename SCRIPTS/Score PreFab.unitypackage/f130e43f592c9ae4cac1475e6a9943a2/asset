@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class Score : MonoBehaviour
+{
+    public int scoreCount;
+
+    public TextMeshProUGUI scoreText;
+    public Vector3 startPos;
+
+    void Start()
+    {
+        startPos = transform.position;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Vector3 curPos = transform.position;
+        Vector3 dist = curPos - startPos;
+
+        scoreCount = Mathf.FloorToInt(dist.x * 10f);
+    }
+}
